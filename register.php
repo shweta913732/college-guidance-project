@@ -1,26 +1,27 @@
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "college_guidance";
+$host = "YOUR_HOST";
+$user = "YOUR_USER";
+$password = "YOUR_PASSWORD";
+$database = "YOUR_DATABASE";
+$port = 3306; // or use Railway port if given
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($host, $user, $password, $database, $port);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// get form data
 $name = $_POST['name'];
-$email = $_POST['email'];
-$password = $_POST['password'];
+$group = $_POST['group_name'];
 $marks = $_POST['marks'];
 
-$sql = "INSERT INTO student (name, email, password, marks)
-VALUES ('$name', '$email', '$password', '$marks')";
+// insert data
+$sql = "INSERT INTO students (name, group_name, marks) VALUES ('$name', '$group', '$marks')";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Registration Successful!";
+    echo "Registration Successful 🎉";
 } else {
     echo "Error: " . $conn->error;
 }
