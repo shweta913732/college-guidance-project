@@ -1,62 +1,811 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>College Admission Guidance System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Admission Guidance</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #050d1a; }
 
-body{
-font-family: Arial;
-background-color:#f2f2f2;
-text-align:center;
-margin-top:100px;
+/* ── Navbar ── */
+.navbar-custom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 36px;
+  background: rgba(5,13,26,0.92);
+  border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  backdrop-filter: blur(12px);
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.nav-logo {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: #fff;
+}
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-links a {
+  color: rgba(255,255,255,0.6);
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.nav-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+.nav-links a.active { color: #fff; }
+.btn-nav-cta {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: #fff;
+  border: none;
+  padding: 9px 22px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-nav-cta:hover { opacity: 0.9; transform: translateY(-1px); color: #fff; }
+
+/* Hamburger for mobile */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 0.5px solid rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+}
+@media(max-width:768px){
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 65px; left: 0; right: 0; background: #07111f; padding: 16px; gap: 6px; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: block; }
 }
 
-.container{
-background:white;
-width:400px;
-margin:auto;
-padding:30px;
-border-radius:10px;
-box-shadow:0px 0px 10px gray;
+/* ── Hero ── */
+.hero {
+  position: relative;
+  padding: 90px 36px 70px;
+  text-align: center;
+  overflow: hidden;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+canvas#particles {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
 }
 
-button{
-padding:10px 20px;
-margin:10px;
-font-size:16px;
-background-color:#007BFF;
-color:white;
-border:none;
-border-radius:5px;
-cursor:pointer;
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(59,130,246,0.15);
+  border: 0.5px solid rgba(59,130,246,0.35);
+  border-radius: 20px;
+  padding: 7px 18px;
+  color: #93c5fd;
+  font-size: 13px;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 2;
+}
+.badge-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #3b82f6;
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(1.5); }
 }
 
-button:hover{
-background-color:#0056b3;
+.hero h1 {
+  font-size: 52px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+  animation: fadeSlideDown 0.9s ease both;
+}
+.hero h1 .grad {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  color: rgba(255,255,255,0.55);
+  font-size: 17px;
+  max-width: 520px;
+  margin: 0 auto 38px;
+  line-height: 1.65;
+  position: relative;
+  z-index: 2;
+  animation: fadeSlideDown 1.1s ease both;
 }
 
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-btns {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 64px;
+  animation: fadeSlideDown 1.3s ease both;
+}
+.btn-glow {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: #fff;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 11px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-glow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(139,92,246,0.45);
+  color: #fff;
+}
+.btn-outline-white {
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  border: 0.5px solid rgba(255,255,255,0.18);
+  padding: 14px 30px;
+  border-radius: 11px;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-outline-white:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); color: #fff; }
+
+/* Stats row */
+.stats-row {
+  display: flex;
+  justify-content: center;
+  border-top: 0.5px solid rgba(255,255,255,0.08);
+  padding-top: 40px;
+  width: 100%;
+  max-width: 680px;
+  position: relative;
+  z-index: 2;
+}
+.stat-item { flex: 1; text-align: center; padding: 0 24px; border-right: 0.5px solid rgba(255,255,255,0.08); }
+.stat-item:last-child { border-right: none; }
+.stat-num { font-size: 30px; font-weight: 700; color: #fff; }
+.stat-num sup { font-size: 15px; color: #60a5fa; }
+.stat-lbl { font-size: 12px; color: rgba(255,255,255,0.38); margin-top: 4px; }
+
+/* ── Section shared ── */
+.sec-wrap { padding: 70px 36px; }
+.sec-wrap.alt { background: #07111f; }
+.sec-pill {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #60a5fa;
+  background: rgba(59,130,246,0.1);
+  border: 0.5px solid rgba(59,130,246,0.2);
+  border-radius: 20px;
+  padding: 5px 14px;
+  margin-bottom: 14px;
+}
+.sec-title { font-size: 30px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.sec-sub { font-size: 15px; color: rgba(255,255,255,0.42); margin-bottom: 40px; }
+
+/* ── Feature Cards ── */
+.feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; perspective: 1000px; }
+.feat-card {
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 28px 22px;
+  cursor: default;
+  transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), border-color 0.3s, background 0.3s;
+  transform-style: preserve-3d;
+}
+.feat-card:hover { border-color: rgba(99,102,241,0.4); background: rgba(99,102,241,0.07); }
+.feat-icon {
+  width: 50px; height: 50px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+.feat-card h3 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+.feat-card p { font-size: 13px; color: rgba(255,255,255,0.42); line-height: 1.65; }
+
+/* ── Course Cards ── */
+.course-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; perspective: 1000px; }
+.c-card {
+  border-radius: 18px;
+  padding: 32px 20px 24px;
+  text-align: center;
+  cursor: default;
+  transition: transform 0.4s cubic-bezier(.34,1.56,.64,1), box-shadow 0.4s;
+  transform-style: preserve-3d;
+  position: relative;
+  overflow: hidden;
+}
+.c-abbr { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.c-name  { font-size: 13px; line-height: 1.5; opacity: 0.78; }
+.c-pill  { display: inline-block; font-size: 11px; padding: 4px 12px; border-radius: 20px; margin-top: 14px; font-weight: 500; }
+
+/* ── Eligibility ── */
+.elig-box {
+  max-width: 520px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid rgba(255,255,255,0.09);
+  border-radius: 20px;
+  padding: 40px 36px;
+}
+.elig-box input, .elig-box select {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 0.5px solid rgba(255,255,255,0.12);
+  color: #fff;
+  border-radius: 11px;
+  padding: 13px 16px;
+  font-size: 14px;
+  margin-bottom: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.elig-box input::placeholder { color: rgba(255,255,255,0.3); }
+.elig-box select option { background: #0d1b2e; color: #fff; }
+.elig-box input:focus, .elig-box select:focus { border-color: #3b82f6; }
+.elig-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: #fff;
+  border: none;
+  border-radius: 11px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.elig-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+.elig-result {
+  margin-top: 18px;
+  padding: 15px 20px;
+  border-radius: 11px;
+  font-size: 14px;
+  text-align: center;
+  display: none;
+  font-weight: 500;
+}
+
+/* ── College Cards ── */
+.coll-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+.coll-card {
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  text-decoration: none;
+}
+.coll-card:hover { transform: translateY(-10px); border-color: rgba(99,102,241,0.4); box-shadow: 0 20px 40px rgba(0,0,0,0.35); }
+.coll-img { height: 120px; display: flex; align-items: center; justify-content: center; font-size: 46px; }
+.coll-body { padding: 18px; }
+.coll-name { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+.coll-loc  { font-size: 12px; color: rgba(255,255,255,0.38); display: flex; align-items: center; gap: 5px; margin-bottom: 12px; }
+.coll-tags { display: flex; gap: 7px; flex-wrap: wrap; }
+.tag {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 7px;
+  background: rgba(59,130,246,0.12);
+  color: #60a5fa;
+  border: 0.5px solid rgba(59,130,246,0.22);
+}
+
+/* ── Testimonials ── */
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.testi-card {
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  padding: 26px 22px;
+}
+.testi-stars { color: #fbbf24; font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+.testi-text { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.65; margin-bottom: 18px; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 600; color: #fff;
+}
+.testi-info .name  { font-size: 14px; font-weight: 600; color: #fff; }
+.testi-info .role  { font-size: 12px; color: rgba(255,255,255,0.38); }
+
+/* ── Footer ── */
+footer {
+  background: #020810;
+  padding: 40px 36px 28px;
+  border-top: 0.5px solid rgba(255,255,255,0.07);
+}
+.footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; margin-bottom: 32px; }
+.footer-brand-area .brand { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.footer-brand-area p { font-size: 13px; color: rgba(255,255,255,0.35); max-width: 260px; line-height: 1.6; }
+.footer-links-col h4 { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 14px; }
+.footer-links-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.35); text-decoration: none; margin-bottom: 8px; transition: color 0.2s; }
+.footer-links-col a:hover { color: #60a5fa; }
+.footer-bottom { border-top: 0.5px solid rgba(255,255,255,0.06); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-bottom span { font-size: 13px; color: rgba(255,255,255,0.28); }
+
+/* ── Scroll reveal ── */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
-
 </head>
 
 <body>
 
-<div class="container">
+<!-- ══ Navbar ══ -->
+<nav class="navbar-custom">
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo"><i class="ti ti-school" aria-hidden="true"></i></div>
+    College Guidance
+  </a>
+  <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle menu">
+    <i class="ti ti-menu-2" aria-hidden="true"></i>
+  </button>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" class="active">Home</a>
+    <a href="college.html">Colleges</a>
+    <a href="recommendation.html">Recommend</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="login.html" style="margin-left:4px;">Login</a>
+    <a href="register.html" class="btn-nav-cta" style="margin-left:6px;">Register Free</a>
+  </div>
+</nav>
 
-<h1>College Admission Guidance System</h1>
+<!-- ══ Hero ══ -->
+<section class="hero">
+  <canvas id="particles"></canvas>
 
-<p>Welcome Students! Find the best college for your future.</p>
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    India's #1 College Guidance Platform
+  </div>
 
-<a href="register.html">
-<button>Student Registration</button>
-</a>
+  <h1>Find Your <span class="grad">Dream College</span><br>with Confidence</h1>
+  <p class="hero-sub">AI-powered college recommendations, eligibility checks, and admission guidance — all in one beautifully simple platform.</p>
 
-<a href="login.html">
-<button>Student Login</button>
-</a>
+  <div class="hero-btns">
+    <a href="register.html" class="btn-glow">
+      <i class="ti ti-rocket" aria-hidden="true"></i> Get Started Free
+    </a>
+    <a href="college.html" class="btn-outline-white">
+      <i class="ti ti-building-community" aria-hidden="true"></i> Explore Colleges
+    </a>
+    <a href="login.html" class="btn-outline-white">
+      <i class="ti ti-login" aria-hidden="true"></i> Login
+    </a>
+  </div>
 
-</div>
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">500<sup>+</sup></div>
+      <div class="stat-lbl">Colleges Listed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">10K<sup>+</sup></div>
+      <div class="stat-lbl">Students Guided</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">50<sup>+</sup></div>
+      <div class="stat-lbl">Courses</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">95<sup>%</sup></div>
+      <div class="stat-lbl">Success Rate</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Why Choose Us ══ -->
+<section class="sec-wrap alt reveal">
+  <div class="text-center">
+    <div class="sec-pill">What we offer</div>
+    <div class="sec-title">Everything you need to succeed</div>
+    <div class="sec-sub">Powerful tools designed to guide every step of your admission journey</div>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon" style="background:rgba(59,130,246,0.15);">
+        <i class="ti ti-search" style="color:#60a5fa;" aria-hidden="true"></i>
+      </div>
+      <h3>Smart College Search</h3>
+      <p>Filter colleges by course, location, cutoff marks and more with powerful search</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:rgba(139,92,246,0.15);">
+        <i class="ti ti-brain" style="color:#a78bfa;" aria-hidden="true"></i>
+      </div>
+      <h3>AI Recommendation</h3>
+      <p>Get personalized college suggestions powered by intelligent algorithms</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:rgba(16,185,129,0.15);">
+        <i class="ti ti-checklist" style="color:#34d399;" aria-hidden="true"></i>
+      </div>
+      <h3>Eligibility Checker</h3>
+      <p>Instantly know exactly which colleges you qualify for based on your marks</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:rgba(245,158,11,0.15);">
+        <i class="ti ti-map-2" style="color:#fbbf24;" aria-hidden="true"></i>
+      </div>
+      <h3>Career Roadmap</h3>
+      <p>Plan your entire career path with expert guidance and real insights</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Popular Courses ══ -->
+<section class="sec-wrap reveal">
+  <div class="text-center">
+    <div class="sec-pill">Popular courses</div>
+    <div class="sec-title">Choose your field</div>
+    <div class="sec-sub">Hover over each card to explore it in 3D</div>
+  </div>
+  <div class="course-grid">
+    <div class="c-card" style="background:rgba(59,130,246,0.1);border:0.5px solid rgba(59,130,246,0.2);">
+      <div class="c-abbr" style="color:#60a5fa;">CSE</div>
+      <div class="c-name" style="color:rgba(147,197,253,0.85);">Computer Science Engineering</div>
+      <div class="c-pill" style="background:rgba(59,130,246,0.15);color:#93c5fd;">High Demand</div>
+    </div>
+    <div class="c-card" style="background:rgba(139,92,246,0.1);border:0.5px solid rgba(139,92,246,0.2);">
+      <div class="c-abbr" style="color:#a78bfa;">IT</div>
+      <div class="c-name" style="color:rgba(196,181,253,0.85);">Information Technology</div>
+      <div class="c-pill" style="background:rgba(139,92,246,0.15);color:#c4b5fd;">Trending</div>
+    </div>
+    <div class="c-card" style="background:rgba(245,158,11,0.1);border:0.5px solid rgba(245,158,11,0.2);">
+      <div class="c-abbr" style="color:#fbbf24;">ECE</div>
+      <div class="c-name" style="color:rgba(253,211,77,0.85);">Electronics & Communication</div>
+      <div class="c-pill" style="background:rgba(245,158,11,0.15);color:#fcd34d;">Core Branch</div>
+    </div>
+    <div class="c-card" style="background:rgba(16,185,129,0.1);border:0.5px solid rgba(16,185,129,0.2);">
+      <div class="c-abbr" style="color:#34d399;">EEE</div>
+      <div class="c-name" style="color:rgba(110,231,183,0.85);">Electrical & Electronics</div>
+      <div class="c-pill" style="background:rgba(16,185,129,0.15);color:#6ee7b7;">Evergreen</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Eligibility Checker ══ -->
+<section class="sec-wrap alt reveal">
+  <div class="text-center">
+    <div class="sec-pill">Eligibility checker</div>
+    <div class="sec-title">Are you eligible?</div>
+    <div class="sec-sub">Enter your marks and instantly find out which colleges you qualify for</div>
+  </div>
+  <div class="elig-box">
+    <input type="number" id="marksInput" placeholder="Enter your 12th marks (out of 200)" min="0" max="200">
+    <select id="courseSelect">
+      <option value="">Select your preferred course</option>
+      <option value="CSE">CSE — Computer Science Engineering</option>
+      <option value="IT">IT — Information Technology</option>
+      <option value="ECE">ECE — Electronics & Communication</option>
+      <option value="EEE">EEE — Electrical & Electronics</option>
+    </select>
+    <button class="elig-btn" onclick="checkEligibility()">
+      <i class="ti ti-sparkles" aria-hidden="true"></i> Check My Eligibility
+    </button>
+    <div class="elig-result" id="eligResult"></div>
+  </div>
+</section>
+
+<!-- ══ Featured Colleges ══ -->
+<section class="sec-wrap reveal">
+  <div class="text-center">
+    <div class="sec-pill">Top colleges</div>
+    <div class="sec-title">Featured institutions</div>
+    <div class="sec-sub">Explore top-rated colleges across Tamil Nadu</div>
+  </div>
+  <div class="coll-grid">
+    <a href="college.html" class="coll-card">
+      <div class="coll-img" style="background:rgba(59,130,246,0.08);">🏛️</div>
+      <div class="coll-body">
+        <div class="coll-name">ABC Engineering College</div>
+        <div class="coll-loc"><i class="ti ti-map-pin" style="font-size:13px;" aria-hidden="true"></i> Chennai</div>
+        <div class="coll-tags">
+          <span class="tag">CSE</span><span class="tag">IT</span><span class="tag">ECE</span>
+        </div>
+      </div>
+    </a>
+    <a href="college.html" class="coll-card">
+      <div class="coll-img" style="background:rgba(139,92,246,0.08);">🎓</div>
+      <div class="coll-body">
+        <div class="coll-name">XYZ Institute of Technology</div>
+        <div class="coll-loc"><i class="ti ti-map-pin" style="font-size:13px;" aria-hidden="true"></i> Coimbatore</div>
+        <div class="coll-tags">
+          <span class="tag">CSE</span><span class="tag">EEE</span><span class="tag">Mech</span>
+        </div>
+      </div>
+    </a>
+    <a href="college.html" class="coll-card">
+      <div class="coll-img" style="background:rgba(16,185,129,0.08);">🔬</div>
+      <div class="coll-body">
+        <div class="coll-name">DEF College of Engineering</div>
+        <div class="coll-loc"><i class="ti ti-map-pin" style="font-size:13px;" aria-hidden="true"></i> Madurai</div>
+        <div class="coll-tags">
+          <span class="tag">IT</span><span class="tag">ECE</span><span class="tag">Civil</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ══ Testimonials ══ -->
+<section class="sec-wrap alt reveal">
+  <div class="text-center">
+    <div class="sec-pill">Student stories</div>
+    <div class="sec-title">What our students say</div>
+    <div class="sec-sub">Real feedback from students who found their dream college</div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"This platform helped me find the perfect college for CSE. The eligibility checker saved me so much time!"</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:rgba(59,130,246,0.25);color:#60a5fa;">AK</div>
+        <div class="testi-info">
+          <div class="name">Arun Kumar</div>
+          <div class="role">CSE Student, Chennai</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The AI recommendation feature suggested colleges I never even considered. Got into my top choice!"</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:rgba(139,92,246,0.25);color:#a78bfa;">PR</div>
+        <div class="testi-info">
+          <div class="name">Priya Rajan</div>
+          <div class="role">IT Student, Coimbatore</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Simple, fast, and accurate. Found 5 colleges matching my marks and got admission in my first choice."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:rgba(16,185,129,0.25);color:#34d399;">MK</div>
+        <div class="testi-info">
+          <div class="name">Manoj Kumar</div>
+          <div class="role">ECE Student, Madurai</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA Banner ══ -->
+<section class="sec-wrap reveal" style="text-align:center;background:linear-gradient(135deg,rgba(59,130,246,0.12),rgba(139,92,246,0.12));border-top:0.5px solid rgba(99,102,241,0.2);border-bottom:0.5px solid rgba(99,102,241,0.2);">
+  <h2 style="font-size:32px;font-weight:700;color:#fff;margin-bottom:12px;">Ready to find your college?</h2>
+  <p style="font-size:16px;color:rgba(255,255,255,0.5);margin-bottom:32px;">Join 10,000+ students who already found their dream college through our platform.</p>
+  <a href="register.html" class="btn-glow" style="font-size:16px;padding:16px 36px;">
+    <i class="ti ti-rocket" aria-hidden="true"></i> Create Free Account
+  </a>
+</section>
+
+<!-- ══ Footer ══ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand-area">
+      <div class="brand"><i class="ti ti-school" aria-hidden="true"></i> College Guidance</div>
+      <p>Helping students across India find the right college and build a successful career path.</p>
+    </div>
+    <div class="footer-links-col">
+      <h4>Platform</h4>
+      <a href="index.html">Home</a>
+      <a href="college.html">Colleges</a>
+      <a href="recommendation.html">AI Recommend</a>
+      <a href="dashboard.html">Dashboard</a>
+    </div>
+    <div class="footer-links-col">
+      <h4>Account</h4>
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+      <a href="admin.html">Admin</a>
+    </div>
+    <div class="footer-links-col">
+      <h4>Company</h4>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 College Admission Guidance System. All Rights Reserved.</span>
+    <span>Made with ❤️ for students</span>
+  </div>
+</footer>
+
+<script>
+/* ── Particle animation ── */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let W, H;
+
+function resizeCanvas() {
+  W = canvas.offsetWidth;
+  H = canvas.offsetHeight;
+  canvas.width = W;
+  canvas.height = H;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function Particle() {
+  this.x = Math.random() * W;
+  this.y = Math.random() * H;
+  this.r = Math.random() * 1.6 + 0.4;
+  this.vx = (Math.random() - 0.5) * 0.45;
+  this.vy = (Math.random() - 0.5) * 0.45;
+  this.alpha = Math.random() * 0.5 + 0.1;
+  const cols = ['#3b82f6','#8b5cf6','#06b6d4','#a78bfa','#f472b6'];
+  this.color = cols[Math.floor(Math.random() * cols.length)];
+}
+
+for (let i = 0; i < 100; i++) particles.push(new Particle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > W) p.vx *= -1;
+    if (p.y < 0 || p.y > H) p.vy *= -1;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.alpha;
+    ctx.fill();
+  });
+  particles.forEach((p, i) => {
+    for (let j = i + 1; j < particles.length; j++) {
+      const q = particles[j];
+      const d = Math.hypot(p.x - q.x, p.y - q.y);
+      if (d < 110) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(q.x, q.y);
+        ctx.strokeStyle = 'rgba(99,102,241,' + (0.13 * (1 - d / 110)) + ')';
+        ctx.globalAlpha = 1;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+/* ── 3D tilt on cards ── */
+document.querySelectorAll('.feat-card, .c-card, .coll-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width  - 0.5) * 24;
+    const y = ((e.clientY - r.top)  / r.height - 0.5) * -24;
+    card.style.transform = `translateY(-12px) rotateX(${y}deg) rotateY(${x}deg) scale(1.04)`;
+    card.style.boxShadow = `0 24px 48px rgba(0,0,0,0.4)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.boxShadow = '';
+  });
+});
+
+/* ── Eligibility checker ── */
+function checkEligibility() {
+  const marks  = parseInt(document.getElementById('marksInput').value);
+  const course = document.getElementById('courseSelect').value;
+  const res    = document.getElementById('eligResult');
+  res.style.display = 'block';
+
+  if (!marks || !course) {
+    res.style.background = 'rgba(245,158,11,0.15)';
+    res.style.color = '#fcd34d';
+    res.style.border = '0.5px solid rgba(245,158,11,0.3)';
+    res.textContent = 'Please enter your marks and select a course.';
+    return;
+  }
+  if (marks > 200) {
+    res.style.background = 'rgba(239,68,68,0.15)';
+    res.style.color = '#fca5a5';
+    res.style.border = '0.5px solid rgba(239,68,68,0.3)';
+    res.textContent = 'Marks cannot exceed 200. Please enter a valid value.';
+    return;
+  }
+  if (marks >= 180) {
+    res.style.background = 'rgba(16,185,129,0.15)';
+    res.style.color = '#6ee7b7';
+    res.style.border = '0.5px solid rgba(16,185,129,0.3)';
+    res.textContent = '🎉 Excellent! You qualify for top-tier colleges for ' + course + '. Apply to ABC Engineering College!';
+  } else if (marks >= 150) {
+    res.style.background = 'rgba(59,130,246,0.15)';
+    res.style.color = '#93c5fd';
+    res.style.border = '0.5px solid rgba(59,130,246,0.3)';
+    res.textContent = '✅ Great! You qualify for several good colleges offering ' + course + '.';
+  } else if (marks >= 120) {
+    res.style.background = 'rgba(245,158,11,0.15)';
+    res.style.color = '#fcd34d';
+    res.style.border = '0.5px solid rgba(245,158,11,0.3)';
+    res.textContent = '⚠️ You may qualify through management quota for ' + course + '. Consider other branches too.';
+  } else {
+    res.style.background = 'rgba(239,68,68,0.15)';
+    res.style.color = '#fca5a5';
+    res.style.border = '0.5px solid rgba(239,68,68,0.3)';
+    res.textContent = '❌ Marks are below cutoff for ' + course + '. Consider improving scores or exploring other branches.';
+  }
+}
+
+/* ── Mobile nav toggle ── */
+function toggleNav() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+/* ── Scroll reveal ── */
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>

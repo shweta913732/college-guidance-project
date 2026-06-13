@@ -1,0 +1,715 @@
+at > /mnt/user-data/outputs/college.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colleges — College Guidance</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Arial,sans-serif;background:#050d1a;min-height:100vh;color:#fff;}
+
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:16px 36px;background:rgba(5,13,26,0.95);border-bottom:0.5px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:999;backdrop-filter:blur(12px);}
+.nav-brand{display:flex;align-items:center;gap:10px;color:#fff;font-size:18px;font-weight:700;text-decoration:none;}
+.nav-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:18px;}
+.nav-links{display:flex;gap:4px;align-items:center;}
+.nav-links a{color:rgba(255,255,255,0.6);font-size:14px;padding:8px 16px;border-radius:8px;text-decoration:none;transition:all 0.2s;}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(255,255,255,0.08);}
+.btn-nav{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff!important;border:none;padding:9px 20px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;}
+
+/* Tabs */
+.page-tabs{display:flex;gap:0;background:#07111f;border-bottom:0.5px solid rgba(255,255,255,0.07);padding:0 36px;overflow-x:auto;}
+.tab-btn{padding:16px 24px;font-size:14px;color:rgba(255,255,255,0.45);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap;display:flex;align-items:center;gap:8px;}
+.tab-btn:hover{color:#fff;}
+.tab-btn.active{color:#60a5fa;border-bottom-color:#3b82f6;}
+
+/* Page hero */
+.page-hero{padding:50px 36px 36px;text-align:center;background:linear-gradient(180deg,rgba(59,130,246,0.07) 0%,transparent 100%);}
+.page-hero .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,0.12);border:0.5px solid rgba(59,130,246,0.25);border-radius:20px;padding:6px 16px;color:#93c5fd;font-size:12px;margin-bottom:18px;}
+.page-hero h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:10px;}
+.page-hero p{font-size:15px;color:rgba(255,255,255,0.45);max-width:500px;margin:0 auto;}
+
+/* Filter bar */
+.filter-bar{padding:24px 36px;background:#07111f;border-bottom:0.5px solid rgba(255,255,255,0.06);}
+.filter-inner{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.search-wrap{flex:1;min-width:200px;position:relative;}
+.search-wrap i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);font-size:18px;}
+.search-wrap input{width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:#fff;border-radius:11px;padding:12px 16px 12px 44px;font-size:14px;outline:none;transition:border-color 0.2s;}
+.search-wrap input::placeholder{color:rgba(255,255,255,0.25);}
+.search-wrap input:focus{border-color:#3b82f6;}
+.filter-select{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:#fff;border-radius:11px;padding:12px 16px;font-size:14px;outline:none;cursor:pointer;min-width:140px;}
+.filter-select option{background:#0d1b2e;}
+.btn-search{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;border:none;padding:12px 24px;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer;}
+
+/* Tab sections */
+.tab-section{display:none;padding:36px;}
+.tab-section.active{display:block;}
+
+/* ── COLLEGES GRID ── */
+.college-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+.coll-card{background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.07);border-radius:20px;overflow:hidden;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;cursor:pointer;}
+.coll-card:hover{transform:translateY(-10px);border-color:rgba(99,102,241,0.4);box-shadow:0 20px 48px rgba(0,0,0,0.4);}
+.card-header{padding:24px 22px 18px;display:flex;align-items:center;gap:14px;position:relative;}
+.college-logo{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.college-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.3;}
+.college-loc{font-size:12px;color:rgba(255,255,255,0.38);display:flex;align-items:center;gap:4px;}
+.badge-top{position:absolute;top:14px;right:14px;font-size:10px;padding:4px 10px;border-radius:6px;font-weight:600;}
+.card-body{padding:0 22px 18px;}
+.info-row{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:9px;}
+.info-row i{font-size:15px;color:rgba(255,255,255,0.22);}
+.info-row strong{color:rgba(255,255,255,0.8);}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;}
+.tag{font-size:11px;padding:4px 10px;border-radius:7px;font-weight:500;}
+.card-footer{padding:14px 22px;border-top:0.5px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;}
+.stars{color:#fbbf24;font-size:12px;}
+.rating-num{color:rgba(255,255,255,0.45);font-size:12px;margin-left:5px;}
+.btn-apply{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;border:none;padding:8px 18px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;transition:opacity 0.2s;}
+.btn-apply:hover{opacity:0.85;}
+.btn-compare-add{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);border:0.5px solid rgba(255,255,255,0.12);padding:8px 14px;border-radius:9px;font-size:12px;cursor:pointer;transition:all 0.2s;margin-right:6px;}
+.btn-compare-add:hover,.btn-compare-add.added{background:rgba(59,130,246,0.15);color:#60a5fa;border-color:rgba(59,130,246,0.3);}
+
+/* ── CUTOFF TABLE ── */
+.cutoff-wrap{overflow-x:auto;border-radius:16px;border:0.5px solid rgba(255,255,255,0.08);}
+table{width:100%;border-collapse:collapse;font-size:14px;}
+thead th{background:#07111f;padding:14px 18px;text-align:left;font-size:12px;color:rgba(255,255,255,0.45);font-weight:600;letter-spacing:1px;text-transform:uppercase;border-bottom:0.5px solid rgba(255,255,255,0.08);}
+tbody tr{border-bottom:0.5px solid rgba(255,255,255,0.05);transition:background 0.2s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:rgba(255,255,255,0.03);}
+tbody td{padding:14px 18px;color:rgba(255,255,255,0.75);vertical-align:middle;}
+.college-cell{display:flex;align-items:center;gap:10px;}
+.college-cell .logo-sm{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.cutoff-pill{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;}
+.pill-high{background:rgba(16,185,129,0.15);color:#34d399;border:0.5px solid rgba(16,185,129,0.3);}
+.pill-mid{background:rgba(59,130,246,0.15);color:#60a5fa;border:0.5px solid rgba(59,130,246,0.3);}
+.pill-low{background:rgba(245,158,11,0.15);color:#fbbf24;border:0.5px solid rgba(245,158,11,0.3);}
+.bar-wrap{display:flex;align-items:center;gap:8px;}
+.bar-bg{flex:1;height:6px;background:rgba(255,255,255,0.08);border-radius:4px;min-width:80px;}
+.bar-fill{height:100%;border-radius:4px;}
+.bar-num{font-size:12px;color:rgba(255,255,255,0.5);min-width:30px;}
+
+/* ── COMPARISON ── */
+.compare-bar{background:rgba(59,130,246,0.1);border:0.5px solid rgba(59,130,246,0.2);border-radius:12px;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.compare-bar span{color:#93c5fd;font-size:14px;}
+.btn-compare-now{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;border:none;padding:10px 22px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;}
+.btn-clear{background:rgba(239,68,68,0.15);color:#fca5a5;border:0.5px solid rgba(239,68,68,0.2);padding:10px 18px;border-radius:9px;font-size:14px;cursor:pointer;}
+.compare-table-wrap{overflow-x:auto;border-radius:16px;border:0.5px solid rgba(255,255,255,0.08);}
+.compare-table{width:100%;border-collapse:collapse;}
+.compare-table th{background:#07111f;padding:18px;text-align:center;font-size:13px;color:rgba(255,255,255,0.5);border-bottom:0.5px solid rgba(255,255,255,0.08);min-width:180px;}
+.compare-table th.label-col{text-align:left;min-width:140px;}
+.compare-table td{padding:14px 18px;border-bottom:0.5px solid rgba(255,255,255,0.05);text-align:center;font-size:14px;color:rgba(255,255,255,0.7);}
+.compare-table td.label-col{text-align:left;color:rgba(255,255,255,0.4);font-size:13px;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table tr:hover td{background:rgba(255,255,255,0.02);}
+.win{color:#34d399!important;font-weight:700;}
+
+/* ── FEES ── */
+.fees-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+.fee-card{background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.07);border-radius:18px;padding:24px;transition:transform 0.3s,border-color 0.3s;}
+.fee-card:hover{transform:translateY(-6px);border-color:rgba(99,102,241,0.3);}
+.fee-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.fee-logo{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.fee-name{font-size:14px;font-weight:700;color:#fff;}
+.fee-type{font-size:11px;color:rgba(255,255,255,0.38);}
+.fee-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.06);}
+.fee-row:last-child{border-bottom:none;}
+.fee-label{font-size:13px;color:rgba(255,255,255,0.45);}
+.fee-val{font-size:14px;font-weight:600;}
+.scholarship-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.12);border:0.5px solid rgba(16,185,129,0.25);border-radius:8px;padding:8px 14px;font-size:12px;color:#34d399;margin-top:14px;width:100%;}
+
+/* ── REVIEWS ── */
+.review-summary{display:grid;grid-template-columns:auto 1fr;gap:32px;background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.07);border-radius:18px;padding:28px;margin-bottom:28px;align-items:center;}
+.big-rating{text-align:center;}
+.big-num{font-size:56px;font-weight:700;color:#fff;line-height:1;}
+.big-stars{color:#fbbf24;font-size:22px;margin:8px 0;}
+.big-count{font-size:13px;color:rgba(255,255,255,0.38);}
+.rating-bars{flex:1;}
+.rbar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.rbar-label{font-size:13px;color:rgba(255,255,255,0.45);min-width:40px;}
+.rbar-bg{flex:1;height:8px;background:rgba(255,255,255,0.08);border-radius:4px;}
+.rbar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#fbbf24,#f59e0b);}
+.rbar-num{font-size:12px;color:rgba(255,255,255,0.4);min-width:24px;text-align:right;}
+
+.reviews-list{display:flex;flex-direction:column;gap:16px;margin-bottom:28px;}
+.review-card{background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.07);border-radius:16px;padding:22px;}
+.review-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.reviewer{display:flex;align-items:center;gap:12px;}
+.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;}
+.reviewer-name{font-size:14px;font-weight:600;color:#fff;}
+.reviewer-course{font-size:12px;color:rgba(255,255,255,0.38);}
+.review-stars{color:#fbbf24;font-size:14px;}
+.review-text{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.65;}
+.review-tags-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.review-tag{font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.45);}
+
+.add-review-box{background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;}
+.add-review-box h3{font-size:16px;font-weight:700;color:#fff;margin-bottom:18px;}
+.star-select{display:flex;gap:6px;margin-bottom:18px;}
+.star-select i{font-size:24px;color:rgba(255,255,255,0.2);cursor:pointer;transition:color 0.2s;}
+.star-select i.active,.star-select i:hover{color:#fbbf24;}
+.review-input{width:100%;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.1);color:#fff;border-radius:11px;padding:14px 16px;font-size:14px;outline:none;resize:vertical;min-height:100px;margin-bottom:14px;}
+.review-input::placeholder{color:rgba(255,255,255,0.25);}
+.review-input:focus{border-color:#3b82f6;}
+.btn-submit-review{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;border:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;}
+
+/* ── DEADLINE TRACKER ── */
+.deadline-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.deadline-header h2{font-size:22px;font-weight:700;color:#fff;}
+.deadline-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.deadline-card{background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.07);border-radius:16px;padding:22px;transition:transform 0.3s,border-color 0.3s;}
+.deadline-card:hover{transform:translateY(-6px);}
+.dl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.dl-college{font-size:14px;font-weight:700;color:#fff;}
+.dl-status{font-size:11px;padding:4px 10px;border-radius:6px;font-weight:600;}
+.dl-open{background:rgba(16,185,129,0.15);color:#34d399;}
+.dl-soon{background:rgba(245,158,11,0.15);color:#fbbf24;}
+.dl-closed{background:rgba(239,68,68,0.15);color:#fca5a5;}
+.dl-course{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.dl-date{font-size:13px;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.dl-date i{color:rgba(255,255,255,0.25);font-size:15px;}
+.countdown{display:flex;gap:10px;margin-top:14px;}
+.count-box{flex:1;background:rgba(255,255,255,0.05);border-radius:10px;padding:10px 6px;text-align:center;}
+.count-num{font-size:20px;font-weight:700;color:#60a5fa;}
+.count-lbl{font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px;}
+
+/* PREDICTOR */
+.predictor-wrap{max-width:600px;margin:0 auto;}
+.predictor-box{background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.08);border-radius:20px;padding:36px;}
+.predictor-box h3{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;}
+.predictor-box p{font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:24px;}
+.pred-input{width:100%;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);color:#fff;border-radius:11px;padding:13px 16px;font-size:14px;outline:none;margin-bottom:14px;}
+.pred-input::placeholder{color:rgba(255,255,255,0.25);}
+.pred-input:focus{border-color:#3b82f6;}
+.pred-select{width:100%;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);color:#fff;border-radius:11px;padding:13px 16px;font-size:14px;outline:none;margin-bottom:14px;cursor:pointer;}
+.pred-select option{background:#0d1b2e;}
+.btn-predict{width:100%;padding:14px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;border:none;border-radius:11px;font-size:15px;font-weight:600;cursor:pointer;margin-top:4px;}
+.pred-results{margin-top:24px;display:none;}
+.pred-results h4{font-size:15px;font-weight:700;color:#fff;margin-bottom:14px;}
+.pred-result-item{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;margin-bottom:10px;}
+.pred-rank{font-size:18px;font-weight:700;min-width:32px;}
+.pred-info{flex:1;}
+.pred-name{font-size:14px;font-weight:600;color:#fff;}
+.pred-detail{font-size:12px;color:rgba(255,255,255,0.4);margin-top:3px;}
+.pred-chance{font-size:12px;padding:4px 12px;border-radius:6px;font-weight:600;white-space:nowrap;}
+.chance-high{background:rgba(16,185,129,0.15);color:#34d399;}
+.chance-mid{background:rgba(59,130,246,0.15);color:#60a5fa;}
+.chance-low{background:rgba(245,158,11,0.15);color:#fbbf24;}
+
+/* Section headings */
+.sec-heading{font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;}
+.sec-desc{font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:28px;}
+
+/* Utility */
+.pill-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;}
+.pill-btn{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.55);padding:7px 18px;border-radius:20px;font-size:13px;cursor:pointer;transition:all 0.2s;}
+.pill-btn:hover,.pill-btn.active{background:rgba(59,130,246,0.15);border-color:rgba(59,130,246,0.35);color:#93c5fd;}
+
+footer{background:#020810;padding:24px 36px;border-top:0.5px solid rgba(255,255,255,0.06);text-align:center;}
+footer span{font-size:13px;color:rgba(255,255,255,0.28);}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo"><i class="ti ti-school" aria-hidden="true"></i></div>
+    College Guidance
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="college.html" class="active">Colleges</a>
+    <a href="recommendation.html">Recommend</a>
+    <a href="about.html">About</a>
+    <a href="login.html">Login</a>
+    <a href="register.html" class="btn-nav">Register</a>
+  </div>
+</nav>
+
+<!-- Tabs -->
+<div class="page-tabs">
+  <button class="tab-btn active" onclick="switchTab('colleges',this)"><i class="ti ti-building-community" aria-hidden="true"></i> All Colleges</button>
+  <button class="tab-btn" onclick="switchTab('cutoff',this)"><i class="ti ti-chart-bar" aria-hidden="true"></i> Cutoff Marks</button>
+  <button class="tab-btn" onclick="switchTab('predictor',this)"><i class="ti ti-sparkles" aria-hidden="true"></i> Rank Predictor</button>
+  <button class="tab-btn" onclick="switchTab('compare',this)"><i class="ti ti-scale" aria-hidden="true"></i> Compare</button>
+  <button class="tab-btn" onclick="switchTab('fees',this)"><i class="ti ti-currency-rupee" aria-hidden="true"></i> Fees & Scholarship</button>
+  <button class="tab-btn" onclick="switchTab('reviews',this)"><i class="ti ti-star" aria-hidden="true"></i> Reviews</button>
+  <button class="tab-btn" onclick="switchTab('deadlines',this)"><i class="ti ti-calendar" aria-hidden="true"></i> Deadlines</button>
+</div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="pill"><i class="ti ti-building-community" aria-hidden="true"></i> 9 Colleges · 6 Courses · 5 Cities</div>
+  <h1>Explore Engineering Colleges</h1>
+  <p>Search, compare, check cutoffs, fees, reviews and deadlines — all in one place</p>
+</div>
+
+<!-- Filter Bar -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <div class="search-wrap">
+      <i class="ti ti-search" aria-hidden="true"></i>
+      <input type="text" id="searchInput" placeholder="Search college or course..." oninput="filterColleges()">
+    </div>
+    <select class="filter-select" id="courseFilter" onchange="filterColleges()">
+      <option value="">All Courses</option>
+      <option value="CSE">CSE</option>
+      <option value="IT">IT</option>
+      <option value="ECE">ECE</option>
+      <option value="EEE">EEE</option>
+      <option value="Mechanical">Mechanical</option>
+      <option value="Civil">Civil</option>
+    </select>
+    <select class="filter-select" id="locationFilter" onchange="filterColleges()">
+      <option value="">All Locations</option>
+      <option value="Chennai">Chennai</option>
+      <option value="Coimbatore">Coimbatore</option>
+      <option value="Madurai">Madurai</option>
+      <option value="Trichy">Trichy</option>
+      <option value="Salem">Salem</option>
+    </select>
+    <button class="btn-search" onclick="filterColleges()"><i class="ti ti-search" aria-hidden="true"></i> Search</button>
+  </div>
+</div>
+
+<!-- ══ TAB: ALL COLLEGES ══ -->
+<div class="tab-section active" id="tab-colleges">
+  <div class="pill-row">
+    <button class="pill-btn active" onclick="setCutoff('',this)">All</button>
+    <button class="pill-btn" onclick="setCutoff('high',this)">High (180+)</button>
+    <button class="pill-btn" onclick="setCutoff('mid',this)">Medium (150–179)</button>
+    <button class="pill-btn" onclick="setCutoff('low',this)">Open (Below 150)</button>
+  </div>
+  <div class="college-grid" id="collegeGrid"></div>
+</div>
+
+<!-- ══ TAB: CUTOFF MARKS ══ -->
+<div class="tab-section" id="tab-cutoff">
+  <div class="sec-heading">Cutoff Marks 2026</div>
+  <div class="sec-desc">Course-wise cutoff marks for all listed colleges</div>
+  <div class="pill-row">
+    <button class="pill-btn active" onclick="filterCutoff('',this)">All Courses</button>
+    <button class="pill-btn" onclick="filterCutoff('CSE',this)">CSE</button>
+    <button class="pill-btn" onclick="filterCutoff('IT',this)">IT</button>
+    <button class="pill-btn" onclick="filterCutoff('ECE',this)">ECE</button>
+    <button class="pill-btn" onclick="filterCutoff('EEE',this)">EEE</button>
+  </div>
+  <div class="cutoff-wrap">
+    <table id="cutoffTable">
+      <thead>
+        <tr>
+          <th>College</th>
+          <th>Location</th>
+          <th>Course</th>
+          <th>Cutoff (out of 200)</th>
+          <th>Progress</th>
+          <th>Category</th>
+        </tr>
+      </thead>
+      <tbody id="cutoffBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ TAB: RANK PREDICTOR ══ -->
+<div class="tab-section" id="tab-predictor">
+  <div class="predictor-wrap">
+    <div class="predictor-box">
+      <h3><i class="ti ti-sparkles" aria-hidden="true"></i> Marks-Based College Predictor</h3>
+      <p>Enter your 12th marks and preferred course to get your best-matched colleges ranked by chance of admission</p>
+      <input class="pred-input" type="number" id="predMarks" placeholder="Enter your 12th marks (out of 200)" min="0" max="200">
+      <select class="pred-select" id="predCourse">
+        <option value="">Select preferred course</option>
+        <option value="CSE">CSE — Computer Science Engineering</option>
+        <option value="IT">IT — Information Technology</option>
+        <option value="ECE">ECE — Electronics & Communication</option>
+        <option value="EEE">EEE — Electrical & Electronics</option>
+        <option value="Mechanical">Mechanical Engineering</option>
+        <option value="Civil">Civil Engineering</option>
+      </select>
+      <select class="pred-select" id="predLocation">
+        <option value="">Any Location</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Coimbatore">Coimbatore</option>
+        <option value="Madurai">Madurai</option>
+        <option value="Trichy">Trichy</option>
+        <option value="Salem">Salem</option>
+      </select>
+      <button class="btn-predict" onclick="runPredictor()"><i class="ti ti-sparkles" aria-hidden="true"></i> Predict My Colleges</button>
+      <div class="pred-results" id="predResults">
+        <h4>Your College Matches</h4>
+        <div id="predList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB: COMPARE ══ -->
+<div class="tab-section" id="tab-compare">
+  <div class="sec-heading">Compare Colleges</div>
+  <div class="sec-desc">Add colleges from the All Colleges tab then compare them side by side</div>
+  <div class="compare-bar">
+    <span id="compareCount"><i class="ti ti-info-circle" aria-hidden="true"></i> Go to "All Colleges" tab and click "+ Compare" on any college card</span>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-clear" onclick="clearCompare()">Clear All</button>
+      <button class="btn-compare-now" onclick="renderCompare()">Compare Now</button>
+    </div>
+  </div>
+  <div id="compareResult"></div>
+</div>
+
+<!-- ══ TAB: FEES ══ -->
+<div class="tab-section" id="tab-fees">
+  <div class="sec-heading">Fees & Scholarship Info</div>
+  <div class="sec-desc">Annual tuition fees, hostel charges and scholarship opportunities</div>
+  <div class="fees-grid" id="feesGrid"></div>
+</div>
+
+<!-- ══ TAB: REVIEWS ══ -->
+<div class="tab-section" id="tab-reviews">
+  <div class="sec-heading">Student Reviews</div>
+  <div class="sec-desc">Real feedback from students who studied at these colleges</div>
+
+  <div class="review-summary">
+    <div class="big-rating">
+      <div class="big-num">4.5</div>
+      <div class="big-stars">★★★★½</div>
+      <div class="big-count">Based on 248 reviews</div>
+    </div>
+    <div class="rating-bars">
+      <div class="rbar-row"><span class="rbar-label">5 ★</span><div class="rbar-bg"><div class="rbar-fill" style="width:65%;"></div></div><span class="rbar-num">65%</span></div>
+      <div class="rbar-row"><span class="rbar-label">4 ★</span><div class="rbar-bg"><div class="rbar-fill" style="width:22%;"></div></div><span class="rbar-num">22%</span></div>
+      <div class="rbar-row"><span class="rbar-label">3 ★</span><div class="rbar-bg"><div class="rbar-fill" style="width:9%;"></div></div><span class="rbar-num">9%</span></div>
+      <div class="rbar-row"><span class="rbar-label">2 ★</span><div class="rbar-bg"><div class="rbar-fill" style="width:3%;"></div></div><span class="rbar-num">3%</span></div>
+      <div class="rbar-row"><span class="rbar-label">1 ★</span><div class="rbar-bg"><div class="rbar-fill" style="width:1%;"></div></div><span class="rbar-num">1%</span></div>
+    </div>
+  </div>
+
+  <div class="reviews-list" id="reviewsList"></div>
+
+  <div class="add-review-box">
+    <h3><i class="ti ti-pencil" aria-hidden="true"></i> Write a Review</h3>
+    <div class="star-select" id="starSelect">
+      <i class="ti ti-star" onclick="setStars(1)" aria-hidden="true"></i>
+      <i class="ti ti-star" onclick="setStars(2)" aria-hidden="true"></i>
+      <i class="ti ti-star" onclick="setStars(3)" aria-hidden="true"></i>
+      <i class="ti ti-star" onclick="setStars(4)" aria-hidden="true"></i>
+      <i class="ti ti-star" onclick="setStars(5)" aria-hidden="true"></i>
+    </div>
+    <input class="review-input" type="text" id="reviewName" placeholder="Your name" style="min-height:auto;resize:none;margin-bottom:10px;">
+    <textarea class="review-input" id="reviewText" placeholder="Share your experience about this college..."></textarea>
+    <button class="btn-submit-review" onclick="submitReview()"><i class="ti ti-send" aria-hidden="true"></i> Submit Review</button>
+  </div>
+</div>
+
+<!-- ══ TAB: DEADLINES ══ -->
+<div class="tab-section" id="tab-deadlines">
+  <div class="deadline-header">
+    <div>
+      <div class="sec-heading">Admission Deadlines 2026</div>
+      <div class="sec-desc">Track application deadlines — never miss a date!</div>
+    </div>
+  </div>
+  <div class="deadline-grid" id="deadlineGrid"></div>
+</div>
+
+<footer>
+  <span>© 2026 College Admission Guidance System. All Rights Reserved.</span>
+</footer>
+
+<script>
+/* ── DATA ── */
+const colleges = [
+  {id:1,name:"ABC Engineering College",location:"Chennai",courses:["CSE","IT","ECE"],cutoff:185,rating:4.8,type:"Autonomous",logo:"🏛️",color:"rgba(59,130,246,0.12)",badge:"Top Rated",bc:"rgba(16,185,129,0.2)",bt:"#34d399",fee:95000,hostel:55000,scholarship:"Merit: up to 50%"},
+  {id:2,name:"XYZ Institute of Technology",location:"Coimbatore",courses:["CSE","EEE","Mechanical"],cutoff:172,rating:4.6,type:"Deemed",logo:"🎓",color:"rgba(139,92,246,0.12)",badge:"Popular",bc:"rgba(139,92,246,0.2)",bt:"#a78bfa",fee:85000,hostel:48000,scholarship:"SC/ST: Full fee waiver"},
+  {id:3,name:"DEF College of Engineering",location:"Madurai",courses:["IT","ECE","Civil"],cutoff:158,rating:4.4,type:"Affiliated",logo:"🔬",color:"rgba(16,185,129,0.12)",badge:"Affordable",bc:"rgba(245,158,11,0.2)",bt:"#fbbf24",fee:65000,hostel:42000,scholarship:"Sports: 25%"},
+  {id:4,name:"GHI Tech University",location:"Trichy",courses:["CSE","IT","EEE","ECE"],cutoff:180,rating:4.7,type:"University",logo:"🏫",color:"rgba(245,158,11,0.12)",badge:"University",bc:"rgba(59,130,246,0.2)",bt:"#60a5fa",fee:110000,hostel:60000,scholarship:"Merit: up to 75%"},
+  {id:5,name:"JKL Engineering College",location:"Salem",courses:["Mechanical","Civil","EEE"],cutoff:145,rating:4.2,type:"Affiliated",logo:"⚙️",color:"rgba(239,68,68,0.10)",badge:"Open Merit",bc:"rgba(239,68,68,0.2)",bt:"#fca5a5",fee:55000,hostel:38000,scholarship:"OBC: 15%"},
+  {id:6,name:"MNO Institute of Technology",location:"Chennai",courses:["CSE","ECE","IT"],cutoff:176,rating:4.5,type:"Autonomous",logo:"💡",color:"rgba(6,182,212,0.12)",badge:"Autonomous",bc:"rgba(6,182,212,0.2)",bt:"#67e8f9",fee:90000,hostel:52000,scholarship:"Merit: up to 40%"},
+  {id:7,name:"PQR College of Engineering",location:"Coimbatore",courses:["EEE","Mechanical","Civil"],cutoff:152,rating:4.3,type:"Affiliated",logo:"🏗️",color:"rgba(168,85,247,0.12)",badge:"Govt Aided",bc:"rgba(168,85,247,0.2)",bt:"#d8b4fe",fee:45000,hostel:36000,scholarship:"Govt Aided: 30%"},
+  {id:8,name:"STU Tech Institute",location:"Madurai",courses:["CSE","IT"],cutoff:168,rating:4.4,type:"Private",logo:"💻",color:"rgba(34,197,94,0.10)",badge:"IT Focus",bc:"rgba(34,197,94,0.2)",bt:"#86efac",fee:75000,hostel:44000,scholarship:"Academic: 20%"},
+  {id:9,name:"VWX University of Technology",location:"Trichy",courses:["CSE","ECE","EEE","Civil"],cutoff:183,rating:4.9,type:"University",logo:"🎯",color:"rgba(251,191,36,0.10)",badge:"Best Ranked",bc:"rgba(251,191,36,0.2)",bt:"#fde68a",fee:120000,hostel:65000,scholarship:"Merit: up to 80%"},
+];
+
+const reviews=[
+  {name:"Arun Kumar",course:"CSE, ABC Engineering",stars:5,text:"Outstanding placement support and excellent faculty. The infrastructure is world-class and the labs are well-equipped. Highly recommend!",tags:["Good Placements","Great Faculty","Modern Labs"],avatar:"AK",color:"rgba(59,130,246,0.25)",ac:"#60a5fa"},
+  {name:"Priya Rajan",course:"IT, GHI Tech University",stars:5,text:"The university has amazing industry connections. Got placed at a top MNC through campus recruitment. Campus life is vibrant and fun!",tags:["Top Placements","Industry Connect","Great Campus"],avatar:"PR",color:"rgba(139,92,246,0.25)",ac:"#a78bfa"},
+  {name:"Manoj S",course:"ECE, MNO Institute",stars:4,text:"Good college with decent infrastructure. Faculty is supportive and course curriculum is updated regularly. Hostel facilities are okay.",tags:["Good Faculty","Updated Curriculum"],avatar:"MS",color:"rgba(16,185,129,0.25)",ac:"#34d399"},
+  {name:"Sneha D",course:"EEE, VWX University",stars:5,text:"Best decision of my life! The research opportunities here are incredible. Got a scholarship in my second year. The college truly nurtures talent.",tags:["Research Focus","Scholarships","Talent Nurturing"],avatar:"SD",color:"rgba(245,158,11,0.25)",ac:"#fbbf24"},
+];
+
+const deadlines=[
+  {college:"ABC Engineering College",course:"CSE / IT / ECE",open:"2026-03-01",close:"2026-07-15",counselling:"2026-08-01"},
+  {college:"GHI Tech University",course:"All Courses",open:"2026-03-15",close:"2026-07-20",counselling:"2026-08-05"},
+  {college:"VWX University",course:"CSE / ECE / EEE",open:"2026-04-01",close:"2026-07-10",counselling:"2026-07-25"},
+  {college:"XYZ Institute",course:"CSE / EEE / Mech",open:"2026-04-10",close:"2026-07-30",counselling:"2026-08-10"},
+  {college:"MNO Institute",course:"CSE / ECE / IT",open:"2026-04-15",close:"2026-08-05",counselling:"2026-08-20"},
+  {college:"DEF College",course:"IT / ECE / Civil",open:"2026-05-01",close:"2026-08-10",counselling:"2026-08-25"},
+];
+
+/* ── TABS ── */
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── TAG STYLE ── */
+function tagStyle(c){
+  const m={CSE:'background:rgba(59,130,246,0.15);color:#93c5fd;border:0.5px solid rgba(59,130,246,0.2);',IT:'background:rgba(139,92,246,0.15);color:#c4b5fd;border:0.5px solid rgba(139,92,246,0.2);',ECE:'background:rgba(245,158,11,0.15);color:#fcd34d;border:0.5px solid rgba(245,158,11,0.2);',EEE:'background:rgba(16,185,129,0.15);color:#6ee7b7;border:0.5px solid rgba(16,185,129,0.2);',Mechanical:'background:rgba(239,68,68,0.15);color:#fca5a5;border:0.5px solid rgba(239,68,68,0.2);',Civil:'background:rgba(6,182,212,0.15);color:#67e8f9;border:0.5px solid rgba(6,182,212,0.2);'};
+  return m[c]||'';
+}
+
+/* ── COLLEGE CARDS ── */
+let activeCutoff='',compareList=[];
+
+function renderCard(c){
+  const added=compareList.some(x=>x.id===c.id);
+  return `<div class="coll-card">
+    <div class="card-header" style="background:${c.color};">
+      <div class="college-logo" style="background:rgba(255,255,255,0.08);">${c.logo}</div>
+      <div class="college-info">
+        <div class="college-name">${c.name}</div>
+        <div class="college-loc"><i class="ti ti-map-pin" style="font-size:12px;" aria-hidden="true"></i> ${c.location}</div>
+      </div>
+      <div class="badge-top" style="background:${c.bc};color:${c.bt};">${c.badge}</div>
+    </div>
+    <div class="card-body">
+      <div class="info-row"><i class="ti ti-award" aria-hidden="true"></i><span>Type: <strong>${c.type}</strong></span></div>
+      <div class="info-row"><i class="ti ti-chart-bar" aria-hidden="true"></i><span>Cutoff: <strong style="color:#60a5fa;">${c.cutoff} / 200</strong></span></div>
+      <div class="info-row"><i class="ti ti-currency-rupee" aria-hidden="true"></i><span>Fee: <strong style="color:#a78bfa;">₹${c.fee.toLocaleString()} / yr</strong></span></div>
+      <div class="tags">${c.courses.map(t=>`<span class="tag" style="${tagStyle(t)}">${t}</span>`).join('')}</div>
+    </div>
+    <div class="card-footer">
+      <div>
+        <span class="stars">${'★'.repeat(Math.round(c.rating))}${'☆'.repeat(5-Math.round(c.rating))}</span>
+        <span class="rating-num">${c.rating}</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn-compare-add ${added?'added':''}" onclick="toggleCompare(${c.id})" id="cmp-${c.id}">${added?'✓ Added':'+ Compare'}</button>
+        <button class="btn-apply" onclick="window.location='apply.php?college=${encodeURIComponent(c.name)}'">Apply Now</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function getFiltered(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const course=document.getElementById('courseFilter').value;
+  const loc=document.getElementById('locationFilter').value;
+  return colleges.filter(c=>{
+    const mQ=!q||c.name.toLowerCase().includes(q)||c.courses.some(x=>x.toLowerCase().includes(q));
+    const mC=!course||c.courses.includes(course);
+    const mL=!loc||c.location===loc;
+    const mCut=!activeCutoff||(activeCutoff==='high'&&c.cutoff>=180)||(activeCutoff==='mid'&&c.cutoff>=150&&c.cutoff<180)||(activeCutoff==='low'&&c.cutoff<150);
+    return mQ&&mC&&mL&&mCut;
+  });
+}
+
+function filterColleges(){document.getElementById('collegeGrid').innerHTML=getFiltered().map(renderCard).join('')||'<p style="color:rgba(255,255,255,0.35);padding:40px;text-align:center;">No colleges found. Try adjusting filters.</p>';}
+function setCutoff(v,btn){activeCutoff=v;document.querySelectorAll('#tab-colleges .pill-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');filterColleges();}
+
+/* ── COMPARE ── */
+function toggleCompare(id){
+  const c=colleges.find(x=>x.id===id);
+  const idx=compareList.findIndex(x=>x.id===id);
+  if(idx>=0){compareList.splice(idx,1);}
+  else{if(compareList.length>=4){alert('You can compare up to 4 colleges at a time.');return;}compareList.push(c);}
+  document.getElementById('compareCount').innerHTML=compareList.length>0?`<i class="ti ti-scale" aria-hidden="true"></i> ${compareList.length} college(s) selected for comparison`:`<i class="ti ti-info-circle" aria-hidden="true"></i> Go to "All Colleges" tab and click "+ Compare"`;
+  filterColleges();
+}
+function clearCompare(){compareList=[];document.getElementById('compareResult').innerHTML='';document.getElementById('compareCount').innerHTML='<i class="ti ti-info-circle" aria-hidden="true"></i> Go to "All Colleges" tab and click "+ Compare"';filterColleges();}
+function renderCompare(){
+  if(compareList.length<2){alert('Please select at least 2 colleges to compare.');return;}
+  const rows=[
+    {label:'Location',key:'location',type:'text'},
+    {label:'Type',key:'type',type:'text'},
+    {label:'Cutoff (/ 200)',key:'cutoff',type:'num_high'},
+    {label:'Rating (/ 5)',key:'rating',type:'num_high'},
+    {label:'Annual Fee (₹)',key:'fee',type:'num_low'},
+    {label:'Hostel (₹)',key:'hostel',type:'num_low'},
+    {label:'Scholarship',key:'scholarship',type:'text'},
+    {label:'Courses',key:'courses',type:'arr'},
+  ];
+  let html=`<div class="compare-table-wrap"><table class="compare-table"><thead><tr><th class="label-col">Feature</th>${compareList.map(c=>`<th>${c.logo} ${c.name}</th>`).join('')}</tr></thead><tbody>`;
+  rows.forEach(r=>{
+    html+=`<tr><td class="label-col">${r.label}</td>`;
+    compareList.forEach(c=>{
+      let val=c[r.key];
+      let cls='';
+      if(r.type==='num_high'){const max=Math.max(...compareList.map(x=>x[r.key]));if(val===max)cls='win';}
+      if(r.type==='num_low'){const min=Math.min(...compareList.map(x=>x[r.key]));if(val===min)cls='win';}
+      if(r.type==='arr')val=val.join(', ');
+      if(r.key==='fee'||r.key==='hostel')val='₹'+Number(val).toLocaleString();
+      html+=`<td class="${cls}">${val}</td>`;
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+  document.getElementById('compareResult').innerHTML=html;
+}
+
+/* ── CUTOFF TABLE ── */
+let cutoffCourse='';
+function buildCutoffRows(){
+  const rows=[];
+  colleges.forEach(c=>{
+    c.courses.forEach(course=>{
+      if(!cutoffCourse||course===cutoffCourse){
+        const pct=Math.round((c.cutoff/200)*100);
+        const cat=c.cutoff>=180?'high':c.cutoff>=150?'mid':'low';
+        const catLabel=cat==='high'?'High Merit':cat==='mid'?'Medium':'Open Merit';
+        rows.push(`<tr>
+          <td><div class="college-cell"><div class="logo-sm">${c.logo}</div><span>${c.name}</span></div></td>
+          <td><i class="ti ti-map-pin" style="font-size:13px;margin-right:4px;" aria-hidden="true"></i>${c.location}</td>
+          <td><span class="tag" style="${tagStyle(course)}">${course}</span></td>
+          <td><strong style="color:#60a5fa;font-size:15px;">${c.cutoff}</strong> <span style="color:rgba(255,255,255,0.35);font-size:12px;">/ 200</span></td>
+          <td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${cat==='high'?'#34d399':cat==='mid'?'#60a5fa':'#fbbf24'};"></div></div><span class="bar-num">${pct}%</span></div></td>
+          <td><span class="cutoff-pill pill-${cat}">${catLabel}</span></td>
+        </tr>`);
+      }
+    });
+  });
+  document.getElementById('cutoffBody').innerHTML=rows.join('');
+}
+function filterCutoff(c,btn){cutoffCourse=c;document.querySelectorAll('#tab-cutoff .pill-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildCutoffRows();}
+
+/* ── RANK PREDICTOR ── */
+function runPredictor(){
+  const marks=parseInt(document.getElementById('predMarks').value);
+  const course=document.getElementById('predCourse').value;
+  const loc=document.getElementById('predLocation').value;
+  if(!marks||!course){alert('Please enter your marks and select a course.');return;}
+  const matched=colleges.filter(c=>c.courses.includes(course)&&(!loc||c.location===loc)).map(c=>{
+    let chance,chanceClass,chanceLabel;
+    const diff=marks-c.cutoff;
+    if(diff>=5){chance=95;chanceClass='chance-high';chanceLabel='Very High Chance';}
+    else if(diff>=0){chance=75;chanceClass='chance-high';chanceLabel='High Chance';}
+    else if(diff>=-10){chance=45;chanceClass='chance-mid';chanceLabel='Moderate Chance';}
+    else{chance=15;chanceClass='chance-low';chanceLabel='Low Chance';}
+    return{...c,chance,chanceClass,chanceLabel};
+  }).sort((a,b)=>b.chance-a.chance);
+  const div=document.getElementById('predResults');
+  div.style.display='block';
+  if(matched.length===0){document.getElementById('predList').innerHTML='<p style="color:rgba(255,255,255,0.4);text-align:center;padding:20px;">No colleges found for the selected course and location.</p>';return;}
+  document.getElementById('predList').innerHTML=matched.map((c,i)=>`
+    <div class="pred-result-item">
+      <div class="pred-rank" style="color:${i===0?'#fbbf24':i===1?'#94a3b8':i===2?'#f97316':'#60a5fa'};">#${i+1}</div>
+      <div style="font-size:22px;">${c.logo}</div>
+      <div class="pred-info">
+        <div class="pred-name">${c.name}</div>
+        <div class="pred-detail">${c.location} · Cutoff: ${c.cutoff}/200 · Fee: ₹${c.fee.toLocaleString()}/yr</div>
+      </div>
+      <span class="pred-chance ${c.chanceClass}">${c.chanceLabel}</span>
+    </div>`).join('');
+}
+
+/* ── FEES ── */
+function renderFees(){
+  document.getElementById('feesGrid').innerHTML=colleges.map(c=>`
+    <div class="fee-card">
+      <div class="fee-header">
+        <div class="fee-logo" style="background:${c.color};">${c.logo}</div>
+        <div><div class="fee-name">${c.name}</div><div class="fee-type">${c.type} · ${c.location}</div></div>
+      </div>
+      <div class="fee-row"><span class="fee-label"><i class="ti ti-currency-rupee" aria-hidden="true"></i> Annual Tuition</span><span class="fee-val" style="color:#60a5fa;">₹${c.fee.toLocaleString()}</span></div>
+      <div class="fee-row"><span class="fee-label"><i class="ti ti-home" aria-hidden="true"></i> Hostel (per yr)</span><span class="fee-val" style="color:#a78bfa;">₹${c.hostel.toLocaleString()}</span></div>
+      <div class="fee-row"><span class="fee-label"><i class="ti ti-calculator" aria-hidden="true"></i> Total (4 yrs)</span><span class="fee-val" style="color:#34d399;">₹${((c.fee+c.hostel)*4).toLocaleString()}</span></div>
+      <div class="scholarship-badge"><i class="ti ti-gift" aria-hidden="true"></i> ${c.scholarship}</div>
+    </div>`).join('');
+}
+
+/* ── REVIEWS ── */
+let selectedStars=0;
+function setStars(n){selectedStars=n;document.querySelectorAll('#starSelect i').forEach((s,i)=>s.classList.toggle('active',i<n));}
+function renderReviews(){
+  document.getElementById('reviewsList').innerHTML=reviews.map(r=>`
+    <div class="review-card">
+      <div class="review-top">
+        <div class="reviewer">
+          <div class="avatar" style="background:${r.color};color:${r.ac};">${r.avatar}</div>
+          <div><div class="reviewer-name">${r.name}</div><div class="reviewer-course">${r.course}</div></div>
+        </div>
+        <div class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+      </div>
+      <div class="review-text">${r.text}</div>
+      <div class="review-tags-row">${r.tags.map(t=>`<span class="review-tag">${t}</span>`).join('')}</div>
+    </div>`).join('');
+}
+function submitReview(){
+  const name=document.getElementById('reviewName').value.trim();
+  const text=document.getElementById('reviewText').value.trim();
+  if(!name||!text||!selectedStars){alert('Please fill in your name, review and select a star rating.');return;}
+  reviews.unshift({name,course:'Student',stars:selectedStars,text,tags:['Student Review'],avatar:name.slice(0,2).toUpperCase(),color:'rgba(59,130,246,0.2)',ac:'#60a5fa'});
+  renderReviews();
+  document.getElementById('reviewName').value='';
+  document.getElementById('reviewText').value='';
+  setStars(0);
+  alert('Review submitted! Thank you.');
+}
+
+/* ── DEADLINES ── */
+function countdown(dateStr){
+  const now=new Date(),target=new Date(dateStr);
+  const diff=target-now;
+  if(diff<=0)return{d:0,h:0,m:0,s:0,past:true};
+  const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+  return{d,h,m,s,past:false};
+}
+function renderDeadlines(){
+  document.getElementById('deadlineGrid').innerHTML=deadlines.map((dl,idx)=>{
+    const cd=countdown(dl.close);
+    const status=cd.past?'dl-closed':cd.d<=30?'dl-soon':'dl-open';
+    const statusLabel=cd.past?'Closed':cd.d<=30?'Closing Soon':'Open';
+    return `<div class="deadline-card" id="dlcard-${idx}" style="border-color:${status==='dl-open'?'rgba(16,185,129,0.2)':status==='dl-soon'?'rgba(245,158,11,0.2)':'rgba(239,68,68,0.2)'};">
+      <div class="dl-header">
+        <div class="dl-college">${dl.college}</div>
+        <span class="dl-status ${status}">${statusLabel}</span>
+      </div>
+      <div class="dl-course"><i class="ti ti-book" aria-hidden="true"></i>${dl.course}</div>
+      <div class="dl-date"><i class="ti ti-calendar" aria-hidden="true"></i>Opens: ${dl.open}</div>
+      <div class="dl-date"><i class="ti ti-calendar-off" aria-hidden="true"></i>Deadline: ${dl.close}</div>
+      <div class="dl-date"><i class="ti ti-users" aria-hidden="true"></i>Counselling: ${dl.counselling}</div>
+      ${!cd.past?`<div class="countdown">
+        <div class="count-box"><div class="count-num" id="d-${idx}-d">${cd.d}</div><div class="count-lbl">Days</div></div>
+        <div class="count-box"><div class="count-num" id="d-${idx}-h">${cd.h}</div><div class="count-lbl">Hrs</div></div>
+        <div class="count-box"><div class="count-num" id="d-${idx}-m">${cd.m}</div><div class="count-lbl">Min</div></div>
+        <div class="count-box"><div class="count-num" id="d-${idx}-s">${cd.s}</div><div class="count-lbl">Sec</div></div>
+      </div>`:'<div style="text-align:center;padding:12px;color:rgba(239,68,68,0.7);font-size:13px;">Applications Closed</div>'}
+    </div>`;
+  }).join('');
+  /* Live countdown */
+  setInterval(()=>{
+    deadlines.forEach((dl,idx)=>{
+      const cd=countdown(dl.close);
+      if(!cd.past){
+        const d=document.getElementById(`d-${idx}-d`);
+        if(d){d.textContent=cd.d;document.getElementById(`d-${idx}-h`).textContent=cd.h;document.getElementById(`d-${idx}-m`).textContent=cd.m;document.getElementById(`d-${idx}-s`).textContent=cd.s;}
+      }
+    });
+  },1000);
+}
+
+/* ── 3D TILT ── */
+document.addEventListener('mousemove',e=>{
+  document.querySelectorAll('.coll-card,.fee-card,.deadline-card').forEach(card=>{
+    const r=card.getBoundingClientRect();
+    if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom){
+      const x=((e.clientX-r.left)/r.width-.5)*16;
+      const y=((e.clientY-r.top)/r.height-.5)*-16;
+      card.style.transform=`translateY(-10px) rotateX(${y}deg) rotateY(${x}deg) scale(1.03)`;
+    } else {card.style.transform='';}
+  });
+});
+
+/* ── INIT ── */
+filterColleges();
+buildCutoffRows();
+renderFees();
+renderReviews();
+renderDeadlines();
+</script>
+</body>
+</html>
+EOF
+echo "college.html done"
